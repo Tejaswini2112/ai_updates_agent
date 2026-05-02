@@ -1,0 +1,15 @@
+# Phase 1 — Core Agent
+langgraph==1.1.10
+langchain-anthropic==1.4.2
+langchain-core==1.3.2
+python-dotenv==1.2.2
+feedparser==6.0.12
+requests==2.33.1
+python-dateutil==2.9.0.post0
+
+# Phase 1 Week 2
+streamlit
+
+# Phase 2 — add when needed
+# sendgrid
+# apscheduler
