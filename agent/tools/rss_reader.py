@@ -74,10 +74,15 @@ def fetch_rss(source: dict) -> list[Article]:
         if not title or not url:
             continue
 
-        if getattr(entry, "published_parsed", None):
-            pub_dt = datetime(*entry.published_parsed[:6], tzinfo=timezone.utc)
+        published_at = _parse_date(entry)
+        try:
+            pub_dt = datetime.fromisoformat(published_at)
+            if pub_dt.tzinfo is None:
+                pub_dt = pub_dt.replace(tzinfo=timezone.utc)
             if pub_dt < cutoff:
                 continue
+        except Exception:
+            pass
 
         articles.append(
             Article(
@@ -86,7 +91,7 @@ def fetch_rss(source: dict) -> list[Article]:
                 description=_get_description(entry),
                 source_name=source["name"],
                 source_tier=source["tier"],
-                published_at=_parse_date(entry),
+                published_at=published_at,
                 score=None,
                 score_reason=None,
                 category=None,
