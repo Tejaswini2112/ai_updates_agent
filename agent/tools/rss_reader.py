@@ -1,7 +1,7 @@
 import re
 import html
 import feedparser
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from agent.state import Article
 
 # arXiv RSS descriptions always start with this boilerplate — strip it
@@ -9,6 +9,9 @@ _ARXIV_PREFIX = re.compile(r"^arXiv:\S+\s+Announce Type:\s+\w+\s+Abstract:\s*", 
 
 # Cap per-source to avoid flooding the pipeline (arXiv publishes 300+ papers/day)
 _MAX_ARTICLES_PER_SOURCE = 30
+
+# Drop articles older than this — prevents stale arXiv revisions and old feed entries
+_MAX_AGE_DAYS = 7
 
 
 def _clean_html(text: str) -> str:
@@ -62,12 +65,19 @@ def fetch_rss(source: dict) -> list[Article]:
         print(f"  [rss_reader] WARNING: {source['name']} returned a malformed feed")
         return []
 
+    cutoff = datetime.now(timezone.utc) - timedelta(days=_MAX_AGE_DAYS)
+
     articles: list[Article] = []
     for entry in feed.entries[:_MAX_ARTICLES_PER_SOURCE]:
         title = getattr(entry, "title", "").strip()
         url = getattr(entry, "link", "").strip()
         if not title or not url:
             continue
+
+        if getattr(entry, "published_parsed", None):
+            pub_dt = datetime(*entry.published_parsed[:6], tzinfo=timezone.utc)
+            if pub_dt < cutoff:
+                continue
 
         articles.append(
             Article(
