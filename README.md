@@ -8,7 +8,7 @@ A personal AI news agent that fetches, scores, categorizes, and summarizes the t
 ![Streamlit](https://img.shields.io/badge/Streamlit-1.57-FF4B4B?logo=streamlit&logoColor=white)
 ![SQLite](https://img.shields.io/badge/SQLite-stdlib-003B57?logo=sqlite&logoColor=white)
 
-**[Live Demo](https://YOUR-APP-URL.streamlit.app)** — browse 3 days of briefings across AI News, Career, and CEO Updates categories.
+**[Live Demo](https://aiupdatesagent-srfpljb2t9bwzzqk54olpn.streamlit.app)** — browse 3 days of briefings across AI News, Career, and CEO Updates categories.
 
 ---
 
@@ -24,7 +24,7 @@ Results are saved to a SQLite database and displayed in a Streamlit dashboard.
 
 ## Dashboard
 
-**[Live demo on Streamlit Community Cloud](https://YOUR-APP-URL.streamlit.app)**
+**[Live demo on Streamlit Community Cloud](https://aiupdatesagent-srfpljb2t9bwzzqk54olpn.streamlit.app)**
 
 > **Local setup:** Run `streamlit run dashboard/app.py` after at least one agent run.
 
@@ -246,7 +246,7 @@ LangSmith tracing is configured out of the box. Add `LANGCHAIN_API_KEY` and `LAN
 
 ## Roadmap
 
-- [x] Streamlit Community Cloud deployment — [live demo](https://YOUR-APP-URL.streamlit.app)
+- [x] Streamlit Community Cloud deployment — [live demo](https://aiupdatesagent-srfpljb2t9bwzzqk54olpn.streamlit.app)
 - [ ] Daily scheduler (APScheduler) — run automatically at 7am
 - [ ] Email digest (SendGrid) — push the briefing rather than pull
 
